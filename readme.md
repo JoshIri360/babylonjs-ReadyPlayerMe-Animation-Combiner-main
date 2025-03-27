@@ -51,6 +51,14 @@ Features</b>
 <br>
 
 <b><span>&#10003;</span>
+Development and Deployment</b>
+- Run locally: <b>npm start</b> (Serves on http://localhost:8080)
+- Deploy to GitHub Pages: <b>npm run deploy</b>
+<br>
+
+<b><span>&#10003;</span>
 Try the Live DEMO</b>
 
 https://viseni.com/readyplayer_anim/
+
+<b>GitHub Pages:</b> https://joshIri369.github.io/babylonjs-readyplayerme-animation-combiner
