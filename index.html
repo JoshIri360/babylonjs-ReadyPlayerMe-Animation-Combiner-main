@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <title>BJS App</title>
+    <!-- Main StyleSheet -->
+    <link rel="stylesheet" href="./css/main.css?id=10">
+    <!-- Bootstrap 5.0.2 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loading DIV -->
+    <div id="loadingDiv">
+        <p id="loadingText" class="font-weight-light">L O A D I N G</p>
+        <span class="loader"></span>
+    </div>
+
+    <!-- Animation Panel -->
+    <div id="animation-panel">
+        <div class="panel-header">
+            <h4>Animation Manager</h4>
+            <button id="toggle-panel" class="btn btn-sm"><i class="fas fa-chevron-left"></i></button>
+        </div>
+        
+        <div class="panel-section">
+            <h5>Current Animation</h5>
+            <div class="input-group mb-2">
+                <input type="text" id="animation-name-input" class="form-control" placeholder="Enter custom name">
+                <button id="save-name-btn" class="btn btn-primary"><i class="fas fa-save"></i></button>
+            </div>
+            <div id="current-animation-info" class="animation-info"></div>
+        </div>
+        
+        <div class="panel-section">
+            <h5>Animation Library</h5>
+            <div id="animation-filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="male">Male</button>
+                <button class="filter-btn" data-filter="female">Female</button>
+                <button class="filter-btn" data-filter="dance">Dance</button>
+                <button class="filter-btn" data-filter="idle">Idle</button>
+                <button class="filter-btn" data-filter="expression">Expression</button>
+                <button class="filter-btn" data-filter="locomotion">Locomotion</button>
+            </div>
+            <div class="input-group mb-2">
+                <input type="text" id="search-animations" class="form-control" placeholder="Search animations">
+                <button class="btn btn-outline-secondary"><i class="fas fa-search"></i></button>
+            </div>
+            <div id="animation-list" class="list-group">
+                <!-- Animation list items will be added dynamically -->
+            </div>
+        </div>
+        
+        <div class="panel-controls">
+            <button id="randomBT" class="btn btn-primary" onclick="randomAnimation()">RANDOM</button>
+            <button id="exportBT" class="btn btn-secondary" onclick="exportAnimationNames()">EXPORT</button>
+        </div>
+    </div>
+
+    <!-- Info Text (simplified) -->
+    <div id="info-text-container">
+        <h4 id="info-text">Current Animation</h4>
+    </div>
+
+    <!-- BabylonJS Render Canvas -->
+    <canvas id="renderCanvas"></canvas>
+
+    <!-- JS Libraries -->
+    <script src="./node_modules/babylonjs/babylon.js"></script> 
+    <script src="./node_modules/babylonjs-loaders/babylonjs.loaders.min.js"></script> 
+    <script src="./node_modules/pepjs/dist/pep.js"></script>
+    <!-- JS Main App -->
+    <script src="./js/main.js?id=10"></script>
+    <button id="customBT" type="button" class="btn btn-outline-info" onclick="randomAnimation()">RANDOM ANIMATION</button>
+</body>
+</html>
