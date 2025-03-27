@@ -62,4 +62,6 @@ Development and Deployment</b>
 <b><span>&#10003;</span>
 Try the Live DEMO</b>
 
-<b>GitHub Pages:</b> https://joshiri360.github.io/babylonjs-ReadyPlayerMe-Animation-Combiner-main/
+https://viseni.com/readyplayer_anim/
+
+<b>GitHub Pages:</b> https://joshIri369.github.io/babylonjs-readyplayerme-animation-combiner
