@@ -31,34 +31,35 @@ Setup NPM and Install BJS</b>
 
 - Install NodeJS from https://nodejs.org/en
 - Download or Clone this Repository
-- Open a Terminal (Usign for example VSCode) 
+- Open a Terminal (Usign for example VSCode)
 - RUN: <b>npm install</b> (To Install BJS Libraries from NPM)
-<br>
+  <br>
 
 <b><span>&#10003;</span>
 Main Code</b>
+
 - Everything is in main.js in js folder.
 - I use Blending function to smooth the movement between animations.
 - Very simple, take a look and I hope you enjoy it
-<br>
+  <br>
 
 <b><span>&#10003;</span>
 Features</b>
+
 - Name and save custom names for animations
 - Export animation names as JSON file
 - Filter animations by category (Male, Female, Dance, Idle, Expression, Locomotion)
 - Search animations by name
-<br>
+  <br>
 
 <b><span>&#10003;</span>
 Development and Deployment</b>
+
 - Run locally: <b>npm start</b> (Serves on http://localhost:8080)
 - Deploy to GitHub Pages: <b>npm run deploy</b>
-<br>
+  <br>
 
 <b><span>&#10003;</span>
 Try the Live DEMO</b>
 
-https://viseni.com/readyplayer_anim/
-
-<b>GitHub Pages:</b> https://joshIri369.github.io/babylonjs-readyplayerme-animation-combiner
+<b>GitHub Pages:</b> https://joshiri360.github.io/babylonjs-ReadyPlayerMe-Animation-Combiner-main/
