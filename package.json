@@ -1,0 +1,20 @@
+{
+  "name": "babylonjs-readyplayerme-animation-combiner",
+  "version": "1.0.0",
+  "description": "BabylonJS application for combining multiple animations to a ReadyPlayerMe Character",
+  "homepage": "https://joshIri369.github.io/babylonjs-readyplayerme-animation-combiner",
+  "scripts": {
+    "predeploy": "echo 'Ready to deploy to GitHub Pages'",
+    "deploy": "gh-pages -d .",
+    "start": "npx http-server . -p 8080"
+  },
+  "dependencies": {
+    "babylonjs": "^6.11.1",
+    "babylonjs-loaders": "^6.11.1",
+    "pepjs": "^0.5.3"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.1.1",
+    "http-server": "^14.1.1"
+  }
+}
