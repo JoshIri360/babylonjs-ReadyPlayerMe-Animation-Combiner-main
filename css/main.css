@@ -239,8 +239,25 @@ html, body {
 }
 
 .animation-item.active {
-    background-color: rgba(93, 156, 236, 0.4);
-    border-color: rgba(93, 156, 236, 0.8);
+    border-left: 3px solid #4e95ff;
+    background-color: rgba(78, 149, 255, 0.2);
+}
+
+.animation-item.incompatible {
+    opacity: 0.6;
+    border-left: 3px solid #ff5252;
+    position: relative;
+}
+
+.animation-item.incompatible:hover {
+    background-color: rgba(255, 82, 82, 0.1);
+}
+
+.incompatible-warning {
+    color: #ff5252;
+    font-size: 0.75rem;
+    font-style: italic;
+    margin-top: 3px;
 }
 
 .animation-item .animation-name {
@@ -322,4 +339,62 @@ html, body {
     #animation-panel.collapsed {
         transform: translateX(-245px);
     }
+}
+
+/* Character List Styles */
+#character-list {
+    max-height: 250px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+
+.character-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.character-item:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.character-item.active {
+    background-color: rgba(40, 167, 69, 0.3);
+    border-color: rgba(40, 167, 69, 0.5);
+}
+
+.character-info {
+    flex: 1;
+}
+
+.character-name {
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.character-file {
+    font-size: 0.8rem;
+    opacity: 0.7;
+}
+
+.character-controls .btn {
+    padding: 2px 6px;
+    font-size: 0.8rem;
+}
+
+#create-video-btn {
+    margin-top: 10px;
+}
+
+#create-video-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
