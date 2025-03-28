@@ -37,9 +37,14 @@ function startApp() {
   // Initialize UI
   window.UIModule.initializeUI();
   
+  // Initialize Video Module
+  if (window.VideoModule) {
+    window.VideoModule.initializeVideoModule();
+  }
+  
   // Load default model and animations
   // Load one of your character models instead
-window.AnimationModule.importAnimationsAndModel("characters/barista.glb");
+  window.AnimationModule.importAnimationsAndModel("characters/barista.glb");
   
   // Load available character list
   window.CharacterModule.loadAvailableCharacters();

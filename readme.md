@@ -50,6 +50,18 @@ Features</b>
 - Export animation names as JSON file
 - Filter animations by category (Male, Female, Dance, Idle, Expression, Locomotion)
 - Search animations by name
+- Create video compilations showing multiple characters with dramatic camera movements
+- Create 360° panoramic animations with frame export for video creation
+  <br>
+
+<b><span>&#10003;</span>
+360° Pan Animation Export</b>
+
+- Select any character and animation
+- Click the "Create 360° Video" button from the animation info panel
+- The camera will perform a smooth 360° pan around the character while the selected animation plays
+- A WebM video file is automatically created and downloaded when the animation completes
+- No additional software needed - the video is ready to view immediately!
   <br>
 
 <b><span>&#10003;</span>

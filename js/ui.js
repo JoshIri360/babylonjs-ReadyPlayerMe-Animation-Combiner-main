@@ -49,6 +49,19 @@ function initializeUI() {
       window.CharacterModule.startVideoCompilation();
     });
   }
+  
+  // Create 360° Pan Video button
+  const create360PanBtn = document.getElementById("create-360-pan-btn");
+  if (create360PanBtn) {
+    create360PanBtn.addEventListener("click", () => {
+      const currentAnimation = window.AnimationModule.getCurrentAnimation();
+      if (currentAnimation) {
+        window.CharacterModule.start360PanAnimation(currentAnimation);
+      } else {
+        alert("Please select an animation first!");
+      }
+    });
+  }
 }
 
 // Hide Loading View
@@ -239,39 +252,49 @@ function saveCurrentAnimationName() {
   }
 }
 
-// Update current animation info display
+// Create export video controls in animation info section
 function updateCurrentAnimationInfo() {
+  const container = document.getElementById("current-animation-info");
+  if (!container) return;
+
+  // Get current animation
   const currentAnimation = window.AnimationModule.getCurrentAnimation();
-  if (!currentAnimation) return;
+  if (!currentAnimation) {
+    container.innerHTML = "<p class='text-muted'>No animation selected</p>";
+    return;
+  }
 
+  // Get custom name if exists
   const animationNameMap = window.AnimationModule.getAnimationNameMap();
-  const infoElement = document.getElementById("current-animation-info");
-  const customName = animationNameMap[currentAnimation.name] || "";
+  const customName =
+    animationNameMap[currentAnimation.name] || currentAnimation.name;
 
-  infoElement.innerHTML = `
-    <div><strong>File:</strong> <span class="text-wrap">${
-      currentAnimation.name
-    }</span></div>
-    ${
-      customName
-        ? `<div><strong>Custom Name:</strong> <span class="text-wrap">${customName}</span></div>`
-        : ""
-    }
-    <div><strong>Category:</strong> <span class="text-wrap">${window.AnimationModule.getAnimationCategory(
-      currentAnimation.name
-    )}</span></div>
+  // Get animation category
+  const category = window.AnimationModule.getAnimationCategory(
+    currentAnimation.name
+  );
+
+  // Update animation info
+  container.innerHTML = `
+    <div class="mb-2">
+      <div><strong>Name:</strong> ${customName}</div>
+      <div><small class="text-muted">File: ${currentAnimation.name}</small></div>
+      <div><small class="text-muted">Category: ${category}</small></div>
+    </div>
+    <div class="d-grid gap-2">
+      <button id="create-360-pan-btn" class="btn btn-primary btn-sm">
+        <i class="fas fa-video me-1"></i> Create 360° Video
+      </button>
+    </div>
   `;
 
-  // Update main info text at top of screen
-  const displayName = customName || currentAnimation.name;
-  document.getElementById(
-    "info-text"
-  ).innerHTML = `Current Animation<br><span class="text-wrap">${displayName}</span>`;
-
-  // Update input placeholder with current custom name
-  const nameInput = document.getElementById("animation-name-input");
-  nameInput.placeholder = customName ? "Update name" : "Enter custom name";
-  if (customName) nameInput.value = customName;
+  // Add event listener for the export button
+  const create360PanBtn = document.getElementById("create-360-pan-btn");
+  if (create360PanBtn) {
+    create360PanBtn.addEventListener("click", () => {
+      window.CharacterModule.start360PanAnimation(currentAnimation);
+    });
+  }
 }
 
 // Create and populate animation list
