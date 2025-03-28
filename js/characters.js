@@ -303,7 +303,7 @@ function start360PanAnimation(animation, duration = 15) {
   progressNoteText.style.fontSize = "12px";
   progressNoteText.style.opacity = "0.8";
   progressNoteText.style.marginTop = "5px";
-  progressNoteText.textContent = "A WebM video will be created automatically when complete";
+  progressNoteText.textContent = "Will attempt to convert to MP4 automatically if supported";
   
   const progressBarContainer = document.createElement("div");
   progressBarContainer.style.width = "300px";

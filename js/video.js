@@ -8,6 +8,40 @@ let selectedAnimation = null;
 let progressCallback = null;
 let animationDuration = 0;
 let recordingStartTime = 0;
+let ffmpegLoaded = false;
+let ffmpeg = null;
+
+// Initialize ffmpeg.wasm
+async function initFFmpeg() {
+  if (ffmpegLoaded) return;
+
+  try {
+    // Create a script element to load the local ffmpeg.wasm script
+    const script = document.createElement('script');
+    script.src = './resources/ffmpeg/ffmpeg.min.js';
+    
+    // Wait for the script to load
+    await new Promise((resolve, reject) => {
+      script.onload = resolve;
+      script.onerror = reject;
+      document.head.appendChild(script);
+    });
+
+    // Initialize ffmpeg with local core files
+    ffmpeg = FFmpeg.createFFmpeg({ 
+      log: true,
+      corePath: './resources/ffmpeg/ffmpeg-core.js'
+    });
+    
+    await ffmpeg.load();
+    ffmpegLoaded = true;
+    console.log('FFmpeg loaded successfully');
+    return true;
+  } catch (error) {
+    console.error('Failed to load FFmpeg:', error);
+    return false;
+  }
+}
 
 // Start recording video
 function startRecording(animation, duration, onProgress) {
@@ -23,7 +57,7 @@ function startRecording(animation, duration, onProgress) {
     // Create a media stream from the canvas
     const stream = canvas.captureStream(60); // 60 FPS
     
-    // Configure the MediaRecorder with better quality
+    // Configure the MediaRecorder
     const options = {
       mimeType: 'video/webm;codecs=vp9',
       videoBitsPerSecond: 5000000 // 5 Mbps for better quality
@@ -59,6 +93,11 @@ function startRecording(animation, duration, onProgress) {
     
     // Update progress periodically
     updateRecordingProgress();
+    
+    // Attempt to load ffmpeg.wasm in background while recording
+    initFFmpeg().then(success => {
+      console.log("FFmpeg preloaded:", success);
+    });
     
   } catch (error) {
     console.error("Failed to start recording:", error);
@@ -97,32 +136,65 @@ function handleDataAvailable(event) {
 }
 
 // Handle recording stop event
-function handleStop() {
-  // Get animation name for the file
-  const animationName = selectedAnimation ? 
-    (window.AnimationModule.getAnimationNameMap()[selectedAnimation.name] || selectedAnimation.name) : 
-    'animation';
-  
-  const filename = `${animationName.replace(/[^\w\s]/gi, '')}_360_pan.webm`;
-  
-  // Update progress
-  if (progressCallback) {
-    progressCallback(0.9, 'Creating video file...');
-  }
-  
+async function handleStop() {
   try {
-    // Create a blob from all chunks
-    const blob = new Blob(recordedChunks, { type: 'video/webm' });
-    const url = URL.createObjectURL(blob);
+    // Create WebM blob from recorded chunks
+    const webmBlob = new Blob(recordedChunks, { type: 'video/webm' });
     
-    // Create download link
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = filename;
-    link.click();
+    // Get animation name for the file
+    const animationName = selectedAnimation ? 
+      (window.AnimationModule.getAnimationNameMap()[selectedAnimation.name] || selectedAnimation.name) : 
+      'animation';
     
-    // Clean up
-    URL.revokeObjectURL(url);
+    const filename = `${animationName.replace(/[^\w\s]/gi, '')}_360_pan`;
+    
+    // Update progress
+    if (progressCallback) {
+      progressCallback(0.8, 'Creating video file...');
+    }
+
+    // Try to use ffmpeg to convert to MP4 if available
+    if (ffmpegLoaded && ffmpeg) {
+      try {
+        // Update progress
+        if (progressCallback) {
+          progressCallback(0.85, 'Converting to MP4...');
+        }
+        
+        // Convert WebM to MP4 using ffmpeg.wasm
+        const { fetchFile } = FFmpeg;
+        ffmpeg.FS('writeFile', 'input.webm', await fetchFile(webmBlob));
+        
+        // Run the conversion with optimal settings for web compatibility
+        await ffmpeg.run(
+          '-i', 'input.webm',
+          '-c:v', 'libx264',
+          '-preset', 'fast',
+          '-crf', '23',
+          '-pix_fmt', 'yuv420p',
+          'output.mp4'
+        );
+        
+        // Read the output MP4 file
+        const data = ffmpeg.FS('readFile', 'output.mp4');
+        const mp4Blob = new Blob([data.buffer], { type: 'video/mp4' });
+        
+        // Create download link for MP4
+        downloadVideo(mp4Blob, `${filename}.mp4`);
+        
+        // Clean up
+        ffmpeg.FS('unlink', 'input.webm');
+        ffmpeg.FS('unlink', 'output.mp4');
+      } catch (error) {
+        console.error("Error converting to MP4:", error);
+        // Fall back to WebM if conversion fails
+        downloadVideo(webmBlob, `${filename}.webm`);
+      }
+    } else {
+      // If ffmpeg is not available, just download the WebM
+      console.log("FFmpeg not available, downloading WebM directly");
+      downloadVideo(webmBlob, `${filename}.webm`);
+    }
     
     // Show success message
     if (progressCallback) {
@@ -147,6 +219,16 @@ function handleStop() {
   isRecording = false;
 }
 
+// Helper function to download a video blob
+function downloadVideo(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
 // Stop recording and save the video
 function stopRecording() {
   if (!isRecording || !mediaRecorder) return;
@@ -162,12 +244,10 @@ function stopRecording() {
 
 // Initialize video module
 function initializeVideoModule() {
-  // Check if MediaRecorder is available
-  if (typeof MediaRecorder === 'undefined') {
-    console.warn("MediaRecorder not supported in this browser. Video export may not work correctly.");
-  } else {
-    console.log("Video module initialized with MediaRecorder");
-  }
+  // Try to preload ffmpeg.wasm
+  initFFmpeg().then(success => {
+    console.log("FFmpeg initialized:", success);
+  });
 }
 
 // Export the module

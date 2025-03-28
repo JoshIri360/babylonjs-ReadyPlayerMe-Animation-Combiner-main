@@ -60,8 +60,9 @@ Features</b>
 - Select any character and animation
 - Click the "Create 360° Video" button from the animation info panel
 - The camera will perform a smooth 360° pan around the character while the selected animation plays
-- A WebM video file is automatically created and downloaded when the animation completes
-- No additional software needed - the video is ready to view immediately!
+- The system will automatically try to convert the video to MP4 using ffmpeg.wasm
+- If MP4 conversion is available in your browser, you'll get an MP4 file; otherwise, you'll get a WebM file
+- No server-side processing - everything happens directly in your browser!
   <br>
 
 <b><span>&#10003;</span>
